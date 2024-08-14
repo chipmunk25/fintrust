@@ -11,7 +11,10 @@ export default defineConfig({
       include: "**/*.svg",
     }),
   ],
-
+  server: {
+    port: 3000,
+    cors: true,
+  },
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "./src"),
