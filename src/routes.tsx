@@ -8,13 +8,18 @@ import AuthLayout from "./components/layouts/auth";
 
 import Layout from "./components/layouts";
 
-import PortalLayout, { protectedLoader } from "./components/layouts/portal";
+import PortalLayout from "./components/layouts/portal";
 
 const rootRoutes = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Layout />}>
-        <Route path="/*" element={<PortalLayout />} loader={protectedLoader}>
+        <Route
+          path="/*"
+          element={<PortalLayout />}
+
+          // loader={protectedLoader}
+        >
           <Route
             index
             lazy={async () => {
