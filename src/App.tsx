@@ -1,13 +1,14 @@
-import { Button } from "adusei-ui";
-import { useState } from "react";
+import { RouterProvider } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { persistor } from "./redux/store";
+import rootRoutes from "./routes";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <Button>Welcome</Button>
-    </>
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={rootRoutes} />
+    </PersistGate>
   );
 }
 
