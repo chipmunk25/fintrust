@@ -28,7 +28,7 @@ import common from "./slice/common";
 //   removeItem: (key: string) => localStorage.removeItem(key),
 // };
 const persistConfig = {
-  key: "veilighehs",
+  key: "fintrust",
   storage: createWebStorage("local"),
   version: 1,
 };
