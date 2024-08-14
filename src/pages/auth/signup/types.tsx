@@ -1,14 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-export const LoginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email is required" })
+export const UserSchema = z.object({
+  fullName: z
+    .string({ required_error: "First name is required" })
     .trim()
-    .email({ message: "Email must be a valid email" }),
-  password: z.string().min(1, { message: "Password is required" }),
+    .min(1, "First name is required"),
+  email: z
+    .string({ required_error: "Email is required" })
+    .email("Invalid email address"),
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(8, "Password must be at least 8 characters long"),
+
 });
 
-export type TLogin = z.infer<typeof LoginSchema>;
-export const LoginValidator = zodResolver(LoginSchema);
+export type UserRequestDto = z.infer<typeof UserSchema>;
+export const UserValidator = zodResolver(UserSchema);

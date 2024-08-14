@@ -6,9 +6,9 @@ import { waitForTimeout } from "~/lib/utils";
 import { restApi } from "~/redux/restApi";
 import { authActions } from "~/redux/slice/auth";
 import { useForm } from "react-hook-form";
-import { LoginValidator, TLogin } from "./types";
+import { UserValidator, UserRequestDto } from "./types";
 const Signin = () => {
-  const [loginMutation, { isLoading }] = restApi.useLoginMutation();
+  const [signupMutation, { isLoading }] = restApi.useSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -18,8 +18,8 @@ const Signin = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TLogin>({
-    resolver: LoginValidator,
+  } = useForm<UserRequestDto>({
+    resolver: UserValidator,
     mode: "all",
     defaultValues: {
       email: "",
@@ -27,30 +27,15 @@ const Signin = () => {
     },
   });
 
-  const onSubmit = async (data: TLogin) => {
+  const onSubmit = async (data: UserRequestDto) => {
     try {
-      const response = await loginMutation(data).unwrap();
-      const result = response.result;
-      const { accessToken, refreshToken, userId, expiresIn, avatar } = result;
-      dispatch(
-        authActions.setTokens({
-          accessToken,
-          refreshToken,
-          userId,
-          expiresIn,
-          avatar,
-        })
-      );
-      const redirectTo = searchParams.get("redirectTo") ?? routes.home();
-
-      await waitForTimeout(1000);
-      if (userId) {
-        return navigate(redirectTo, {
-          replace: true,
-        });
-      } else {
-        return navigate(routes.login());
-      }
+      const response = await signupMutation({
+        signupRequest:data
+      }).unwrap();
+      // const result = response.result;
+     
+        // return navigate(routes.login());
+      console.log(response)
     } catch (err) {
       console.log(err);
     }
@@ -66,6 +51,17 @@ const Signin = () => {
         <div className="w-full space-y-2">
           <FormWizard
             config={[
+              {
+                register: { ...register("fullName") },
+                label: "Fullname",
+                placeholder: "Enter Fullname",
+                errors: {
+                  message: errors.fullName?.message,
+                  error: !!errors.fullName,
+                },
+                className: "w-full",
+                type: InputTypes.TEXT,
+              },
               {
                 register: { ...register("email") },
                 label: "Email",
@@ -92,7 +88,7 @@ const Signin = () => {
                 type: InputTypes.PASSWORD,
               },
               {
-                title: "Sign in",
+                title: "Sign Up",
                 type: InputTypes.SUBMIT,
                 className: "w-full text-base",
                 loading: isLoading,

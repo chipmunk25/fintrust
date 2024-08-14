@@ -199,6 +199,17 @@ export const restApi = createApi({
     }),
 
     // end desmond section of code
+    //start achaasa section of code
+    Signup: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/users/signup/`,
+        method: "POST",
+        body: queryArg.signupRequest,
+        
+      }),
+    }),
+
+    //end achaasa section of code
   }),
 
   refetchOnMountOrArgChange: true,
