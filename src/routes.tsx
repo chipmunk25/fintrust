@@ -32,6 +32,13 @@ const rootRoutes = createBrowserRouter(
               return { Component: Page };
             }}
           />
+          <Route
+            path="signup"
+            lazy={async () => {
+              const { default: Page } = await import("./pages/auth/signup");
+              return { Component: Page };
+            }}
+          />
         </Route>
       </Route>
     </>
