@@ -168,7 +168,7 @@ const saveBankRecords = () => {
                 title: "Next",
                 type: InputTypes.SUBMIT,
                 className: "w-full text-base",
-
+                loading: isLoading,
                 prefix: "ArrowRight",
                 prefixClass: "w-6 h-6",
               },

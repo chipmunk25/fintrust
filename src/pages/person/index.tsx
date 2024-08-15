@@ -239,9 +239,21 @@ const Person = () => {
           />
         </div>
         <div className="flex justify-start max-w-xs">
-          <Button className="" type="submit" disabled={isLoading}>
+          <FormWizard
+            config={[
+              {
+                title: "Next",
+                type: InputTypes.SUBMIT,
+                className: "w-full text-base",
+                loading: isLoading,
+                prefix: "ArrowRight",
+                prefixClass: "w-6 h-6",
+              },
+            ]}
+          />
+          {/* <Button className="" type="submit" disabled={isLoading}>
             Next
-          </Button>
+          </Button> */}
         </div>
       </form>
     </div>

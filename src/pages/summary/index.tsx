@@ -8,7 +8,7 @@ import { waitForTimeout } from "~/lib/utils";
 
 const Summary = () => {
   const navigate = useNavigate();
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [results, setResults] = useState(0);
   const [loadPersonDetails, { data, isLoading }] =
     restApi.useLazyPersonInfoQuery();
@@ -41,13 +41,14 @@ const Summary = () => {
   console.log(data, "data");
   return (
     <div className="flex flex-col items-center justify-center min-h-96">
-      {loader && (
-        <div className="flex items-center justify-center mx-auto space-y-12">
-          <Icon name="LoaderCircle" className="w-20 h-20 animate-spin" />
-        </div>
-      )}
+      {isLoading ||
+        (loader && (
+          <div className="flex items-center justify-center mx-auto space-y-12">
+            <Icon name="LoaderCircle" className="w-20 h-20 animate-spin" />
+          </div>
+        ))}
       <div className="text-3xl">
-        {loader ? (
+        {isLoading || loader ? (
           <div className="">Please wait we are analyzing your data</div>
         ) : (
           <div className="space-y-12">
@@ -75,7 +76,7 @@ const Summary = () => {
     </div>
   );
 };
-function calculateCreditScore(assessment) {
+function calculateCreditScore(assessment: any) {
   let score = 0;
 
   // Fullname
@@ -122,7 +123,7 @@ function calculateCreditScore(assessment) {
   score += 6;
 
   // Employment details
-  assessment.employments.forEach((employment) => {
+  assessment.employments.forEach((employment: any) => {
     score += 2; // Current employer
     score += 3; // Address
     score += 2; // Position
@@ -146,7 +147,7 @@ function calculateCreditScore(assessment) {
   });
 
   // Bank details
-  assessment.banks.forEach((bank) => {
+  assessment.banks.forEach((bank: any) => {
     score += 2; // Bank name
     score += 3; // Account number
     score += 3; // Account name
@@ -164,7 +165,7 @@ function calculateCreditScore(assessment) {
   });
 
   // Financial details
-  assessment.financials.forEach((financial) => {
+  assessment.financials.forEach((financial: any) => {
     const incomeTypeScores = {
       WAGES: 0,
       SALARY: 0,
@@ -187,7 +188,7 @@ function calculateCreditScore(assessment) {
   });
 
   // Expenses
-  assessment.expenses.forEach((expense) => {
+  assessment.expenses.forEach((expense: any) => {
     const expenseAmountScores = [
       { max: 500, points: 6 },
       { max: 2000, points: 5 },
@@ -202,7 +203,7 @@ function calculateCreditScore(assessment) {
   });
 
   // Current debt
-  assessment.currentDebts.forEach((debt) => {
+  assessment.currentDebts.forEach((debt: any) => {
     const debtAmountScores = [
       { min: 10000, points: 2 },
       { min: 5000, points: 3 },

@@ -13,7 +13,8 @@ import { restApi } from "~/redux/restApi";
 const Financial = () => {
   const navigate = useNavigate();
 
-  const [financialMutation] = restApi.useCreateFinancialMutation();
+  const [financialMutation, { isLoading }] =
+    restApi.useCreateFinancialMutation();
 
   const [financials, setFinancials] = useState<CartProps[]>([
     {
@@ -322,9 +323,21 @@ const Financial = () => {
         </div>
       </div>
       <div className="flex justify-start max-w-xs">
-        <Button className="" type="submit">
+        {/* <Button className="" type="submit">
           Next
-        </Button>
+        </Button> */}
+        <FormWizard
+          config={[
+            {
+              title: "Next",
+              type: InputTypes.SUBMIT,
+              className: "w-full text-base",
+              loading: isLoading,
+              prefix: "ArrowRight",
+              prefixClass: "w-6 h-6",
+            },
+          ]}
+        />
       </div>
     </form>
   );
