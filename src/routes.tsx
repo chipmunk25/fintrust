@@ -27,6 +27,13 @@ const rootRoutes = createBrowserRouter(
               return { Component: Dashboard };
             }}
           />
+           <Route
+            path="guarantor"
+            lazy={async () => {
+              const { default: Page } = await import("./pages/guarantor");
+              return { Component: Page };
+            }}
+          />
         </Route>
 
         <Route path="" element={<AuthLayout />}>

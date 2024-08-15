@@ -210,6 +210,17 @@ export const restApi = createApi({
     }),
 
     //end achaasa section of code
+     //start python section of code
+     SaveGuarantorRecords: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/guarantor/save`,
+        method: "POST",
+        body: queryArg.saveRecords
+       
+      }),
+    }),
+
+   
   }),
 
   refetchOnMountOrArgChange: true,
