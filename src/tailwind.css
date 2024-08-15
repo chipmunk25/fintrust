@@ -1,6 +1,117 @@
+@import "react-datepicker/dist/react-datepicker.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 73 100% 53%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 201 84% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 201 51% 27%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 216 12% 84%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+    --dropdown-highlighter: theme("colors.neutral.200");
+    --dropdown-text: theme("colors.neutral.700");
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --black: theme("colors.black");
+    --dropdown-highlighter: theme("colors.neutral.200");
+    --dropdown-selected-highlighter: theme("backgroundColor.neutral.700");
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    font-family: RigRegular !important;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes slide {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes slide-reverse {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+
+.animate-slider {
+  animation: slide 0.5s forwards;
+  /* border-color: theme("borderColor.primary.500"); */
+}
+
+.animate-slider-reverse {
+  animation: slide-reverse 0.5s forwards;
+  /* border-color: theme("borderColor.primary.500"); */
+}
 
 .react-calendar__navigation {
   height: 28px !important;
