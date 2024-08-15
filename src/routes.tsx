@@ -29,6 +29,15 @@ const rootRoutes = createBrowserRouter(
               return { Component: Page };
             }}
           />
+          <Route
+            path="employment"
+            lazy={async () => {
+              const { default: Dashboard } = await import(
+                "./pages/employement"
+              );
+              return { Component: Dashboard };
+            }}
+          />
         </Route>
 
         <Route path="" element={<AuthLayout />}>
