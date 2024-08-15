@@ -14,6 +14,7 @@ import { waitForTimeout } from "~/lib/utils";
 // Example transformation function
 import { loadSessionStore } from "./session";
 import { AuthState, authActions } from "./slice/auth";
+import Person from "~/pages/person";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: REST_API_URL,
@@ -163,12 +164,9 @@ export const restApi = createApi({
 
     createEmployee: builder.mutation({
       query: (queryArg) => ({
-        url: `/api/v${queryArg.version}/employee`,
+        url: `/api/employment/save`,
         method: "POST",
-        body: queryArg.createUserRequest,
-        headers: {
-          "App-Name": queryArg["App-Name"],
-        },
+        body: queryArg.employmentRequest,
       }),
     }),
 
@@ -205,7 +203,13 @@ export const restApi = createApi({
         url: `/api/users/signup/`,
         method: "POST",
         body: queryArg.signupRequest,
-        
+      }),
+    }),
+    CreatePerson: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/persons/create/`,
+        method: "POST",
+        body: queryArg.personRequest,
       }),
     }),
 

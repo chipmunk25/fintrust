@@ -10,9 +10,9 @@ export const routes = {
   setPassword: () => "/set-password",
   otpValidation: (params: { telephone: string }) => `/otp/${params.telephone}`,
   settings: () => "/settings",
-  newObservation: () => "/observations/create",
-  newIncident: () => "/incidents/create",
-  incidents: () => "/incidents",
+  person: () => "/",
+  employment: () => "/employment",
+  guarantor: () => "/guarantor",
   employees: () => "/resource/employees",
   newEmployee: () => "/resource/employees/create",
   newRegulation: () => "/compliance/external/regulations/create",
@@ -50,7 +50,7 @@ export enum InputTypes {
   SEARCHABLE_SELECT = "searchable-select",
 }
 
-export const BASE_URL = "http://localhost:3001"
+export const BASE_URL = "http://localhost:3001";
 
 export const REST_API_URL = BASE_URL;
 
