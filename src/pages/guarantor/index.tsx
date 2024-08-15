@@ -9,12 +9,22 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { restApi } from "~/redux/restApi";
 // import { authActions } from "~/redux/slice/auth";
 import { useForm } from "react-hook-form";
-import {GuarantorRecords, GuarantorValidator } from "./types";
+import { GuarantorRecords, GuarantorValidator } from "./types";
+import { useSelector } from "~/redux/store";
+import { routes } from "~/lib/constants";
+import { useEffect } from "react";
+import { toast } from "sonner";
 const saveRecords = () => {
-  const [guarantorMutation, { isLoading }] = restApi.useSaveGuarantorRecordsMutation();
+  const [guarantorMutation, { isLoading }] =
+    restApi.useCreateGurantorMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const personId = useSelector((state) => state.persistedReducer.common.personId);
+  useEffect(() => {
+    if (!personId) {
+      navigate(routes.person());
+    }
+  }, [personId]);
   const {
     // control,
     register,
@@ -28,30 +38,35 @@ const saveRecords = () => {
       address: "",
       telephone: "",
       relationship: "",
-      personId: "",
+      // personId: "",
     },
   });
-
+  console.log(errors);
   const onSubmit = async (data: GuarantorRecords) => {
     try {
       const response = await guarantorMutation({
-        saveRecords:data
+        guarantorRequest: { ...data, personId },
       }).unwrap();
       // const result = response.result;
-     
-        // return navigate(routes.login());
-      console.log(response)
+
+      // return navigate(routes.login());
+      console.log(response);
+      toast.success("guarantor created successfully");
+
+      return navigate(routes.bank());
     } catch (err) {
-      console.log(err);
+      const errorResponse = err as {
+        error: string;
+        status: number;
+      };
+      toast.error(errorResponse.error);
     }
   };
   return (
     <div className="w-full max-w-md px-8 py-6">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-4 text-center">
-          <h1 className="text-2xl font-medium leading-7">Welcome back!</h1>
-
-          <div className="text-xs font-medium">Please enter your details</div>
+        <div className="pb-4">
+          <span className="text-lg font-medium">Guarantor Information</span>
         </div>
         <div className="w-full space-y-2">
           <FormWizard
@@ -77,7 +92,6 @@ const saveRecords = () => {
                 },
                 className: "w-full",
                 type: InputTypes.TEXT,
-      
               },
               {
                 register: { ...register("telephone") },
@@ -90,10 +104,20 @@ const saveRecords = () => {
                 type: InputTypes.TEXT,
               },
               {
-                title: "Save Guarantor Records",
+                register: { ...register("relationship") },
+                label: "Relationship",
+                placeholder: "Enter Relationship",
+                errors: {
+                  message: errors.relationship?.message,
+                  error: !!errors.relationship,
+                },
+                type: InputTypes.TEXT,
+              },
+              {
+                title: "Next",
                 type: InputTypes.SUBMIT,
                 className: "w-full text-base",
-                
+
                 prefix: "ArrowRight",
                 prefixClass: "w-6 h-6",
               },

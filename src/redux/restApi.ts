@@ -214,13 +214,19 @@ export const restApi = createApi({
     }),
 
     //end achaasa section of code
-     //start python section of code
-     SaveGuarantorRecords: builder.mutation({
+    //start python section of code
+    CreateGurantor: builder.mutation({
       query: (queryArg) => ({
         url: `/api/guarantor/save`,
         method: "POST",
-        body: queryArg.saveRecords
-       
+        body: queryArg.guarantorRequest,
+      }),
+    }),
+    CreateFinancial: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/financials/bulk`,
+        method: "POST",
+        body: queryArg.financialRequest,
       }),
     }),
 
@@ -228,13 +234,10 @@ export const restApi = createApi({
       query: (queryArg) => ({
         url: `/api/banks/create`,
         method: "POST",
-        body: queryArg.createBank
-       
+        body: queryArg.bankRequest,
       }),
       //end Clement Section of code
     }),
-
-   
   }),
 
   refetchOnMountOrArgChange: true,

@@ -1,23 +1,24 @@
 import { FormWizard, InputTypes } from "adusei-ui";
 import { useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "~/lib/constants";
-import { waitForTimeout } from "~/lib/utils";
+
 import { restApi } from "~/redux/restApi";
-import { authActions } from "~/redux/slice/auth";
+
 import { useForm } from "react-hook-form";
 import { EmploymentRequestDto, EmploymentValidator } from "./types";
 import { useSelector } from "~/redux/store";
 import { toast } from "sonner";
 import { useEffect } from "react";
 const Employment = () => {
-  const personId = useSelector((state) => state.common.personId);
-
   const [EmploymentMutation, { isLoading }] =
     restApi.useCreateEmployeeMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const personId = useSelector(
+    (state) => state.persistedReducer.common.personId
+  );
   useEffect(() => {
     if (!personId) {
       navigate(routes.person());

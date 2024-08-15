@@ -29,13 +29,20 @@ export const BankSchema = z.object({
     .string({ required_error: "Branch name is required" })
     .trim()
     .min(1, "Branch name is required"),
-  type: accountType,
+  type: z.object(
+    {
+      value: accountType,
+      label: z.string(),
+    },
+    {
+      message: "Bank Type is required",
+    }
+  ),
   balance: z
     .string({ required_error: "Balance is required" })
     .min(0, "Balance can not be negative"),
   personId: z.string().optional(),
 });
-
 
 export const BankValidator = zodResolver(BankSchema);
 export type BankRequestDto = z.infer<typeof BankSchema>;

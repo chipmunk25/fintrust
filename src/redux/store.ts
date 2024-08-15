@@ -20,7 +20,7 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 
 import rootReducer from "./reducer";
 import { restApi } from "./restApi";
-import common from "./slice/common";
+// import common from "./slice/common";
 
 // const createWeb = {
 //   getItem: (key: string) => localStorage.getItem(key),
@@ -39,7 +39,7 @@ const store = configureStore({
     // Add the generated reducer as a specific top-level slice
     [restApi.reducerPath]: restApi.reducer,
     persistedReducer,
-    common,
+    // common,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.

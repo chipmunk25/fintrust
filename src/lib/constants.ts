@@ -13,11 +13,9 @@ export const routes = {
   person: () => "/",
   employment: () => "/employment",
   guarantor: () => "/guarantor",
-  employees: () => "/resource/employees",
-  newEmployee: () => "/resource/employees/create",
-  newRegulation: () => "/compliance/external/regulations/create",
-  newInspection: () => "/inspections/create",
-  newAudit: () => "/audits/create",
+  bank: () => "/bank",
+  financial: () => "/financial",
+  document: () => "/document",
 };
 
 export interface Option {

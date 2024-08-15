@@ -9,7 +9,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { restApi } from "~/redux/restApi";
 // import { authActions } from "~/redux/slice/auth";
 import { useForm } from "react-hook-form";
-import {BankRequestDto, BankValidator } from "./types";
+import { BankRequestDto, BankValidator } from "./types";
+import { useSelector } from "~/redux/store";
+import { useEffect } from "react";
+import { routes } from "~/lib/constants";
+import { toast } from "sonner";
 const saveBankRecords = () => {
   const [bankMutation, { isLoading }] = restApi.useCreateBankMutation();
   const dispatch = useDispatch();
@@ -30,27 +34,37 @@ const saveBankRecords = () => {
       branchName: "",
     },
   });
-
+  const personId = useSelector(
+    (state) => state.persistedReducer.common.personId
+  );
+  useEffect(() => {
+    if (!personId) {
+      navigate(routes.person());
+    }
+  }, [personId]);
   const onSubmit = async (data: BankRequestDto) => {
     try {
       const response = await bankMutation({
-        saveRecords:data
+        bankRequest: { ...data, personId, type: data.type.value },
       }).unwrap();
       // const result = response.result;
-     
-        // return navigate(routes.login());
-      console.log(response)
+      toast.success("bank info created successfully");
+
+      console.log(response);
+      return navigate(routes.financial());
     } catch (err) {
-      console.log(err);
+      const errorResponse = err as {
+        error: string;
+        status: number;
+      };
+      toast.error(errorResponse.error);
     }
   };
   return (
     <div className="w-full max-w-md px-8 py-6">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-4 text-center">
-          <h1 className="text-2xl font-medium leading-7">Welcome back!</h1>
-
-          <div className="text-xs font-medium">Please enter your details</div>
+        <div className="pb-4">
+          <span className="text-lg font-medium">Bank Information</span>
         </div>
         <div className="w-full space-y-2">
           <FormWizard
@@ -76,7 +90,6 @@ const saveBankRecords = () => {
                 },
                 className: "w-full",
                 type: InputTypes.TEXT,
-      
               },
               {
                 register: { ...register("bankName") },
@@ -89,15 +102,14 @@ const saveBankRecords = () => {
                 type: InputTypes.TEXT,
               },
               {
-                register: {...register("branchName")},
+                register: { ...register("branchName") },
                 label: "Branch Name",
                 placeholder: "Enter Branch Name",
-                errors:{
+                errors: {
                   message: errors.branchName?.message,
                   error: !!errors.branchName,
                 },
                 type: InputTypes.TEXT,
-
               },
               {
                 label: "Bank Type",
@@ -141,9 +153,9 @@ const saveBankRecords = () => {
                   error: !!errors.type,
                 },
               },
-              
-            {
-                register: {...register("balance")},
+
+              {
+                register: { ...register("balance") },
                 label: "Balance",
                 placeholder: "Enter balance",
                 errors: {
@@ -153,14 +165,13 @@ const saveBankRecords = () => {
                 type: InputTypes.TEXT,
               },
               {
-                title: "Save Bank",
+                title: "Next",
                 type: InputTypes.SUBMIT,
                 className: "w-full text-base",
-                
+
                 prefix: "ArrowRight",
                 prefixClass: "w-6 h-6",
               },
-              
             ]}
           />
         </div>
