@@ -10,7 +10,7 @@ import { restApi } from "~/redux/restApi";
 // import { authActions } from "~/redux/slice/auth";
 import { useForm } from "react-hook-form";
 import {BankRequestDto, BankValidator } from "./types";
-const saveRecords = () => {
+const saveBankRecords = () => {
   const [bankMutation, { isLoading }] = restApi.useCreateBankMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -169,4 +169,4 @@ const saveRecords = () => {
   );
 };
 
-export default saveRecords;
+export default saveBankRecords;
