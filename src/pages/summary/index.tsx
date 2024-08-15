@@ -1,12 +1,15 @@
-import { cn, Icon } from "adusei-ui";
+import { Button, cn, Icon } from "adusei-ui";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "~/lib/constants";
 import { restApi } from "~/redux/restApi";
 import { useSelector } from "~/redux/store";
 import { waitForTimeout } from "~/lib/utils";
+import { commonActions } from "~/redux/slice/common";
+import { useDispatch } from "react-redux";
 
 const Summary = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loader, setLoader] = useState(true);
   const [results, setResults] = useState(0);
@@ -69,6 +72,18 @@ const Summary = () => {
               {results >= 100
                 ? "Congratulations, you are eligible for a loan"
                 : "Sorry, you are not eligible for a loan"}
+            </div>
+
+            <div>
+              <Button
+                onClick={() => {
+                  dispatch(commonActions.resetPersonId());
+
+                  navigate(routes.person());
+                }}
+              >
+                Start New Loan Application
+              </Button>
             </div>
           </div>
         )}
