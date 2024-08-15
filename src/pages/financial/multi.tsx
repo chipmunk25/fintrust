@@ -40,7 +40,7 @@ const MultiCart = ({
           </li>
           {cartLists?.map((item, idx) => (
             <li className="flex w-full gap-6" key={idx}>
-              <div className="w-full">
+              <div className="w-full min-w-96">
                 <SelectDropDown
                   value={{
                     value: item.name,
