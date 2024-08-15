@@ -16,6 +16,7 @@ export const routes = {
   bank: () => "/bank",
   financial: () => "/financial",
   document: () => "/document",
+  summary: () => "/summary",
 };
 
 export interface Option {

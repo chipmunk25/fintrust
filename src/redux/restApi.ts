@@ -212,6 +212,13 @@ export const restApi = createApi({
         body: queryArg.personRequest,
       }),
     }),
+    CreateDocument: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/documents/add/`,
+        method: "POST",
+        body: queryArg.documentRequest,
+      }),
+    }),
 
     //end achaasa section of code
     //start python section of code

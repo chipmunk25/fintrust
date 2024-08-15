@@ -2,12 +2,12 @@ import { Button, FormWizard, InputTypes } from "adusei-ui";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { routes } from "~/lib/constants";
-import { getFormData, waitForTimeout } from "~/lib/utils";
+import { getFormData } from "~/lib/utils";
 import { restApi } from "~/redux/restApi";
-import { authActions } from "~/redux/slice/auth";
+
 import { useForm } from "react-hook-form";
 import { PersonValidator, PersonRequestDto } from "./types";
-import { get } from "http";
+
 import { toast } from "sonner";
 import { commonActions } from "~/redux/slice/common";
 
@@ -15,7 +15,6 @@ const Person = () => {
   const [personMutation, { isLoading }] = restApi.useCreatePersonMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const {
     control,
