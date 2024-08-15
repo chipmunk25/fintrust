@@ -220,6 +220,16 @@ export const restApi = createApi({
       }),
     }),
 
+    createBank: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/banks/create`,
+        method: "POST",
+        body: queryArg.createBank
+       
+      }),
+      //end Clement Section of code
+    }),
+
    
   }),
 

@@ -8,7 +8,7 @@ export const guarantorSchema = z.object({
 
         {required_error: "Name is required"}
      
-    ).trim(),
+    ).trim().min(1, ""),
 
     address: z.string({
         required_error: "Address cannot be empty"
