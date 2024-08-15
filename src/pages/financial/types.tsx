@@ -1,19 +1,30 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+const schedule = z.enum(["FULL", "MONTHLY", "WEEKLY", "DAILY", "YEARLY"]);
 
 export const FinancialSchema = z.object({
-  detailsOfPreviousLoans: z
-    .string({ required_error: "Details of previous loans is required" })
+  previousLoan: z
+    .string({ required_error: "Bankruptcies is required" })
     .trim()
-    .min(1, "Details of previous loans is required"),
-  repaymentHistory: z
-    .string({ required_error: "Repayment history is required" })
-    .trim()
-    .min(1, "Repayment history is required"),
-  latePayments: z
-    .string({ required_error: "Late payments is required" })
-    .trim()
-    .min(1, "Late payments is required"),
+    .min(1, "Previous Loan is required"),
+  latePayments: z.string().optional(),
+  // .string({ required_error: "Bankruptcies is required" })
+  // .trim()
+  // .min(1, "Bankruptcies is required"),
+  // previousLoan: z.boolean({ required_error: "Previous Loan is required" }),
+  // latePayments: z.boolean({ required_error: "Late payments is required" }),
+  repaymentSchedule: z
+    .object(
+      {
+        value: schedule,
+        label: z.string(),
+      },
+      {
+        message: "Repayment schedule is required",
+      }
+    )
+    .optional(),
+
   nationality: z
     .string({ required_error: "Nationality is required" })
     .trim()

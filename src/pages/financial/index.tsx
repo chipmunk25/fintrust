@@ -1,7 +1,7 @@
-import { Button, FormWizard, InputTypes } from "adusei-ui";
+import { Button, FormWizard, InputTypes, Separator } from "adusei-ui";
 import Cart, { CartProps } from "./cart";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { FinancialRequestDto, FinancialValidator } from "./types";
 import MultiCart, { MultiCartProps } from "./multi";
 import { useSelector } from "~/redux/store";
@@ -55,18 +55,13 @@ const Financial = () => {
     mode: "onSubmit",
   });
 
+  const previousLoanWatch = useWatch<FinancialRequestDto>({
+    name: "previousLoan",
+    control,
+  }) as string;
+
   const onSubmit = async (data: FinancialRequestDto) => {
     console.log(data, debt, financials, expenses);
-
-    const currentDebtPayloads = debt.map((item) => {
-      return {
-        personId,
-        loanAmount: item.amount,
-        existingLoanType: item.name,
-        outstandingBalance: item.amount1,
-        monthlyPaymentObligations: item.amount2,
-      };
-    });
 
     const currentFinancialPayloads = financials.map((item) => {
       return {
@@ -82,30 +77,46 @@ const Financial = () => {
         amount: item.amount,
       };
     });
-
-    const creditHistoryPayload = {
-      personId,
-      detailsOfPreviousLoans: data.detailsOfPreviousLoans,
-      repaymentHistory: data.repaymentHistory,
-      latePayments: data.latePayments,
-    };
-
     const publicRecordsPayload = {
       personId,
       bankruptcies: data.bankruptcies === "Yes" ? true : false,
       criminalRecord: data.criminalRecord === "Yes" ? true : false,
       nationality: data.nationality,
     };
+    const creditHistoryPayload = {
+      personId,
+      previousLoan: data.previousLoan === "Yes" ? true : false,
+      repaymentHistory: data.repaymentSchedule
+        ? data.repaymentSchedule.value
+        : "",
+      latePayments: data.latePayments === "Yes" ? true : false,
+    };
+    const financialRequest = {
+      currentFinancialPayloads,
+      currentExpensesPayloads,
+      publicRecordsPayload,
+      creditHistoryPayload,
+    };
+
+    const currentDebtPayloads = cleanedData(
+      debt.map((item) => {
+        return {
+          personId,
+          loanAmount: item.amount,
+          existingLoanType: item.name,
+          outstandingBalance: item.amount1,
+          monthlyPaymentObligations: item.amount2,
+        };
+      })
+    );
+    if (currentDebtPayloads.length > 0) {
+      financialRequest.currentDebtPayloads = currentDebtPayloads;
+    }
 
     try {
+      console.log(financialRequest, "financialRequest");
       const response = await financialMutation({
-        financialRequest: {
-          currentDebtPayloads,
-          currentFinancialPayloads,
-          currentExpensesPayloads,
-          creditHistoryPayload,
-          publicRecordsPayload,
-        },
+        financialRequest,
       });
       console.log(response, "response");
       toast.success("Financial info created successfully");
@@ -123,8 +134,8 @@ const Financial = () => {
       <div className="pb-4">
         <span className="text-2xl font-bold">Financial Information</span>
       </div>
-      <div className="w-full h-[600px] overflow-auto">
-        <div className="space-y-4">
+      <div className="w-full h-[600px] overflow-auto space-y-4">
+        <div className="pb-5">
           <Cart
             title="Financial"
             left="Type of Financial"
@@ -151,7 +162,8 @@ const Financial = () => {
             ]}
           />
         </div>
-        <div className="space-y-4">
+        <Separator />
+        <div className="pb-5">
           <Cart
             title="Expenses Information"
             left="Type of Expenses"
@@ -182,47 +194,7 @@ const Financial = () => {
             ]}
           />
         </div>
-        <div className="space-y-4">
-          <MultiCart
-            title="Current Debt Information"
-            headers={[
-              "Type of Loan",
-              "Loan Amount",
-              "Outstanding Balance",
-              "Monthly Payment Obligations",
-            ]}
-            // left="Type of Loan"
-            // right="Loan Amount"
-            cartLists={debt}
-            setSelectedCart={setDebt}
-            options={[
-              {
-                value: "PERSONAL",
-                label: "Personal",
-              },
-              {
-                value: "AUTO",
-                label: "Auto",
-              },
-              {
-                value: "MORTGAGE",
-                label: "Mortgage",
-              },
-              {
-                value: "STUDENT",
-                label: "Student",
-              },
-              {
-                value: "COOPERATE",
-                label: "Cooperate",
-              },
-              {
-                value: "BUSINESS",
-                label: "Business",
-              },
-            ]}
-          />
-        </div>
+        <Separator />
         <div className="max-w-md space-y-4">
           <div className="pb-4">
             <span className="text-lg font-medium">Credit History</span>
@@ -230,38 +202,135 @@ const Financial = () => {
           <FormWizard
             config={[
               {
-                register: { ...register("detailsOfPreviousLoans") },
-                label: "Details of Previous Loans",
-                placeholder: "Enter details of previous loans",
-                type: InputTypes.TEXT,
+                type: InputTypes.RADIO,
+                control,
+                label: "Have you taken a loan before",
+                name: "previousLoan",
+                options: [
+                  {
+                    value: "Yes",
+                    label: "Yes",
+                  },
+                  {
+                    value: "No",
+                    label: "No",
+                  },
+                ],
                 errors: {
-                  message: errors.detailsOfPreviousLoans?.message,
-                  error: !!errors.detailsOfPreviousLoans,
-                },
-              },
-              {
-                register: { ...register("repaymentHistory") },
-                label: "Repayment History",
-                placeholder: "Enter repayment history",
-                type: InputTypes.TEXT,
-                errors: {
-                  message: errors.repaymentHistory?.message,
-                  error: !!errors.repaymentHistory,
-                },
-              },
-              {
-                register: { ...register("latePayments") },
-                label: "Late Payments",
-                placeholder: "Enter late payments",
-                type: InputTypes.TEXT,
-                errors: {
-                  message: errors.latePayments?.message,
-                  error: !!errors.latePayments,
+                  message: errors.previousLoan?.message,
+                  error: !!errors.previousLoan,
                 },
               },
             ]}
           />
+          {previousLoanWatch === "Yes" && (
+            <FormWizard
+              config={[
+                {
+                  label: "Repayment Schedule",
+                  control,
+                  type: InputTypes.SELECT,
+                  name: "repaymentSchedule",
+                  required: true,
+                  placeholder: "Select repayment schedule",
+                  options: [
+                    {
+                      value: "FULL",
+                      label: "Full",
+                    },
+                    {
+                      value: "MONTHLY",
+                      label: "Monthly",
+                    },
+                    {
+                      value: "WEEKLY",
+                      label: "Weekly",
+                    },
+                    {
+                      value: "DAILY",
+                      label: "Daily",
+                    },
+                    {
+                      value: "YEARLY",
+                      label: "Yearly",
+                    },
+                  ],
+                  errors: {
+                    message: errors.repaymentSchedule?.message,
+                    error: !!errors.repaymentSchedule,
+                  },
+                },
+                {
+                  type: InputTypes.RADIO,
+                  control,
+                  label: "Any late payments?",
+                  name: "latePayments",
+                  options: [
+                    {
+                      value: "Yes",
+                      label: "Yes",
+                    },
+                    {
+                      value: "No",
+                      label: "No",
+                    },
+                  ],
+                  errors: {
+                    message: errors.latePayments?.message,
+                    error: !!errors.latePayments,
+                  },
+                },
+              ]}
+            />
+          )}
         </div>
+        {previousLoanWatch === "Yes" && (
+          <div>
+            <Separator />
+            <div className="pb-5">
+              <MultiCart
+                title="Current Debt Information"
+                headers={[
+                  "Type of Loan",
+                  "Loan Amount",
+                  "Outstanding Balance",
+                  "Monthly Payment Obligations",
+                ]}
+                // left="Type of Loan"
+                // right="Loan Amount"
+                cartLists={debt}
+                setSelectedCart={setDebt}
+                options={[
+                  {
+                    value: "PERSONAL",
+                    label: "Personal",
+                  },
+                  {
+                    value: "AUTO",
+                    label: "Auto",
+                  },
+                  {
+                    value: "MORTGAGE",
+                    label: "Mortgage",
+                  },
+                  {
+                    value: "STUDENT",
+                    label: "Student",
+                  },
+                  {
+                    value: "COOPERATE",
+                    label: "Cooperate",
+                  },
+                  {
+                    value: "BUSINESS",
+                    label: "Business",
+                  },
+                ]}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="max-w-md space-y-4">
           <div className="pb-4">
             <span className="text-lg font-medium">Public Records</span>
@@ -321,17 +390,13 @@ const Financial = () => {
             ]}
           />
         </div>
-      </div>
-      <div className="flex justify-start max-w-xs">
-        {/* <Button className="" type="submit">
-          Next
-        </Button> */}
+
         <FormWizard
           config={[
             {
               title: "Next",
               type: InputTypes.SUBMIT,
-              className: "w-full text-base",
+              className: "w-full max-w-md text-base",
               loading: isLoading,
               prefix: "ArrowRight",
               prefixClass: "w-6 h-6",
@@ -342,5 +407,10 @@ const Financial = () => {
     </form>
   );
 };
+
+const cleanedData = (data: any[]) =>
+  data?.filter((parties) => {
+    return parties.loanAmount && parties.name;
+  });
 
 export default Financial;
