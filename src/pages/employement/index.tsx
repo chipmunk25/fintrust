@@ -93,7 +93,7 @@ const Employment = () => {
                   message: errors.duration?.message,
                   error: !!errors.duration,
                 },
-                type: InputTypes.NUMBER,
+                type: InputTypes.TEXT,
               },
               {
                 label: "Employment Type",
