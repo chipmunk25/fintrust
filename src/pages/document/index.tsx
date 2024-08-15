@@ -48,7 +48,7 @@ const saveBankRecords = () => {
       toast.success("document attached  successfully");
 
       console.log(response);
-      return navigate(routes.summary());
+      return navigate(routes.loan());
     } catch (err) {
       const errorResponse = err as {
         error: string;

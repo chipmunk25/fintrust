@@ -196,6 +196,12 @@ export const restApi = createApi({
       }),
     }),
 
+    personInfo: builder.query({
+      query: (queryArg) => ({
+        url: `/api/persons/${queryArg.id}`,
+      }),
+    }),
+
     // end desmond section of code
     //start achaasa section of code
     Signup: builder.mutation({
@@ -227,6 +233,13 @@ export const restApi = createApi({
         url: `/api/guarantor/save`,
         method: "POST",
         body: queryArg.guarantorRequest,
+      }),
+    }),
+    CreateLoan: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/loan/request`,
+        method: "POST",
+        body: queryArg.loanRequest,
       }),
     }),
     CreateFinancial: builder.mutation({

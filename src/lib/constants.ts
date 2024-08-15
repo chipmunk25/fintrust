@@ -16,6 +16,7 @@ export const routes = {
   bank: () => "/bank",
   financial: () => "/financial",
   document: () => "/document",
+  loan: () => "/loan",
   summary: () => "/summary",
 };
 

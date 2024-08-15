@@ -60,6 +60,13 @@ const rootRoutes = createBrowserRouter(
             }}
           />
           <Route
+            path="loan"
+            lazy={async () => {
+              const { default: Page } = await import("./pages/loan");
+              return { Component: Page };
+            }}
+          />{" "}
+          <Route
             path="summary"
             lazy={async () => {
               const { default: Page } = await import("./pages/summary");

@@ -158,7 +158,7 @@ const Person = () => {
                   message: errors.noOfDependants?.message,
                   error: !!errors.noOfDependants,
                 },
-                type: InputTypes.NUMBER,
+                type: InputTypes.TEXT,
               },
               {
                 register: { ...register("previousHomeAddress") },
