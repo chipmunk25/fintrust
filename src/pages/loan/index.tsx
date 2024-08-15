@@ -68,7 +68,7 @@ const Loans = () => {
     <div className="w-full max-w-md px-8 py-6">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="pb-4">
-          <span className="text-lg font-medium">Bank Information</span>
+          <span className="text-lg font-medium">Loan Request</span>
         </div>
         <div className="w-full space-y-2">
           <FormWizard
