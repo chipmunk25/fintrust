@@ -14,17 +14,19 @@ const rootRoutes = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Layout />}>
-        <Route
-          path="/*"
-          element={<PortalLayout />}
-
-          // loader={protectedLoader}
-        >
+        <Route path="/*" element={<PortalLayout />}>
           <Route
             index
             lazy={async () => {
-              const { default: Dashboard } = await import("./pages/person");
-              return { Component: Dashboard };
+              const { default: Page } = await import("./pages/person");
+              return { Component: Page };
+            }}
+          />
+          <Route
+            path="financial"
+            lazy={async () => {
+              const { default: Page } = await import("./pages/financial");
+              return { Component: Page };
             }}
           />
         </Route>
