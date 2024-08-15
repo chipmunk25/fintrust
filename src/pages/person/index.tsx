@@ -1,4 +1,4 @@
-import { FormWizard, InputTypes } from "adusei-ui";
+import { Button, FormWizard, InputTypes } from "adusei-ui";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { routes } from "~/lib/constants";
@@ -8,17 +8,17 @@ import { authActions } from "~/redux/slice/auth";
 import { useForm } from "react-hook-form";
 import { PersonValidator, PersonRequestDto } from "./types";
 import { get } from "http";
-import {toast} from "sonner"
+import { toast } from "sonner";
+import { commonActions } from "~/redux/slice/common";
 
 const Person = () => {
-
   const [personMutation, { isLoading }] = restApi.useCreatePersonMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const {
-     control,
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -26,37 +26,73 @@ const Person = () => {
     resolver: PersonValidator,
     mode: "all",
     defaultValues: {
-      email: "",
-      
+      id: `P-${new Date().getTime()}`,
     },
   });
-
+  console.log(errors);
   const onSubmit = async (data: PersonRequestDto) => {
-      const payload=getFormData(data)
+    const payload = {
+      id: data.id,
+      fullname: data.fullname,
+      dob: data.dob,
+      maritalStatus: data.maritalStatus.value,
+      noOfDependants: data.noOfDependants ? Number(data.noOfDependants) : 0,
+      previousHomeAddress: data.previousHomeAddress,
+      currentHomeAddress: data.currentHomeAddress,
+      email: data.email,
+      telephone: data.telephone,
+      nationalID: data.nationalID,
+      passport: data.passport,
+    };
+    console.log(payload, "payload");
+    const personRequest = getFormData(payload);
     try {
       const response = await personMutation({
-        personRequest:payload
+        personRequest,
       }).unwrap();
       // const result = response.result;
-     
-        // return navigate(routes.login());
-      console.log(response)
-      toast.success("person created successfully")
+
+      console.log(response);
+      const personId = response.person.id;
+
+      dispatch(commonActions.selectPersonId(personId));
+
+      toast.success("person created successfully");
+      return navigate(routes.employment());
     } catch (err) {
-      console.log(err);
+      const errorResponse = err as {
+        error: string;
+        status: number;
+      };
+      toast.error(errorResponse.error);
+      console.log(errorResponse.error, errorResponse.status);
     }
   };
   return (
     <div className="w-full max-w-md px-8 py-6">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-4 text-center">
-          <h1 className="text-2xl font-medium leading-7">Welcome back!</h1>
-
-          <div className="text-xs font-medium">Please enter your details</div>
+        <div className="pb-4">
+          <span className="text-lg font-medium">Personal Information</span>
         </div>
         <div className="w-full space-y-2">
-        <FormWizard
+          <FormWizard
             config={[
+              {
+                register: { ...register("id") },
+                label: "Person ID",
+                readOnly: true,
+                description: (
+                  <span className="text-sm text-neutral-500">
+                    You can’t change the Person ID
+                  </span>
+                ),
+                placeholder: "Enter Person ID",
+                type: InputTypes.TEXT,
+                errors: {
+                  message: errors.id?.message,
+                  error: !!errors.id,
+                },
+              },
               {
                 register: { ...register("fullname") },
                 label: "Fullname",
@@ -65,7 +101,7 @@ const Person = () => {
                   message: errors.fullname?.message,
                   error: !!errors.fullname,
                 },
-              
+
                 type: InputTypes.TEXT,
               },
               {
@@ -88,7 +124,7 @@ const Person = () => {
                 name: "maritalStatus",
                 required: true,
                 placeholder: "Marital Status",
-                options:[
+                options: [
                   {
                     value: "SINGLE",
                     label: "Single",
@@ -109,8 +145,6 @@ const Person = () => {
                     value: "SEPARATED",
                     label: "Separated",
                   },
-                  
-                  
                 ],
                 errors: {
                   message: errors.maritalStatus?.message,
@@ -196,21 +230,23 @@ const Person = () => {
                 type: InputTypes.IMAGE,
                 control,
                 label: "Passport",
-                name: "Passport",
+                name: "passport",
                 errors: {
-                  message: errors.passport?.message,
-                  error: !!errors.passport,
+                  error: !!errors?.passport,
+                  message: errors?.passport?.message?.toString(),
                 },
               },
-             
-              
             ]}
           />
+        </div>
+        <div className="flex justify-start max-w-xs">
+          <Button className="" type="submit" disabled={isLoading}>
+            Next
+          </Button>
         </div>
       </form>
     </div>
   );
 };
-
 
 export default Person;

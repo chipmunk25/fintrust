@@ -1,3 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-calendar__navigation {
+  height: 28px !important;
+  line-height: 44px !important;
+  margin-bottom: 0px !important;
+}
+.react-calendar__navigation button {
+  min-width: 28px !important;
+  height: 28px !important;
+  width: 28px !important;
+}
+.react-calendar__navigation__label:hover,
+.react-calendar__navigation__arrow:hover {
+  color: var(--colorBrandForegroundOnLightHover) !important;
+  background: var(--colorBrandBackgroundInvertedHover) !important;
+}
+.react-calendar__navigation__label {
+  vertical-align: middle !important;
+  text-align: center !important;
+  margin-bottom: 1em !important;
+  line-height: normal !important;
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  color: var(--colorBrandForegroundOnLightHover) !important;
+  background: var(--colorBrandBackgroundInvertedHover) !important;
+}
+.react-calendar__year-view {
+  width: 100%;
+  max-width: 400px;
+  max-height: 300px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.react-calendar__year-view__months {
+  text-align: center;
+  border-radius: 5px;
+  background-color: #ffffff;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.react-calendar__year-view .react-calendar__tile {
+  padding: 1.1rem 0.5rem !important;
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: var(--colorBrandBackgroundInvertedHover) !important;
+  border-radius: 2px !important;
+  color: var(--stroke-accent) !important;
+}
+.react-calendar__tile--hasActive {
+  background: var(--colorBrandBackground) !important;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 4px !important;
+}
+
+.react-calendar__decade-view {
+  width: 100%;
+  max-width: 400px;
+  max-height: 300px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.react-calendar__decade-view .react-calendar__tile {
+  padding: 1rem 0.5rem !important;
+}
+
+.react-calendar__century-view {
+  width: 100%;
+  max-width: 500px;
+  max-height: 300px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.react-calendar__century-view .react-calendar__tile {
+  padding: 0.75rem 0.25rem !important;
+}
+
+.react-international-phone-country-selector-button {
+  padding: 0 0.5rem !important;
+}
+
+.react-datepicker-wrapper {
+  @apply w-full;
+}
+.react-datepicker__input-container {
+  @apply flex items-center justify-between w-full;
+}
+/* 
+.react-datepicker {
+  @apply !rounded-md !border !bg-popover !text-popover-foreground !shadow-md !outline-none;
+}
+.react-datepicker__header {
+  @apply !bg-white;
+} */

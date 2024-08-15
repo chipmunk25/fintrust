@@ -15,8 +15,8 @@ importers:
         specifier: ^2.2.7
         version: 2.2.7(react-redux@9.1.2(@types/react@18.3.3)(react@18.3.1)(redux@5.0.1))(react@18.3.1)
       adusei-ui:
-        specifier: ^0.1.7
-        version: 0.1.7(@types/react-dom@18.3.0)(@types/react@18.3.3)(tailwindcss@3.4.10)
+        specifier: ^0.1.8
+        version: 0.1.8(@types/react-dom@18.3.0)(@types/react@18.3.3)(tailwindcss@3.4.10)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1246,8 +1246,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  adusei-ui@0.1.7:
-    resolution: {integrity: sha512-JXY1ZJftB12a0fyTETWu+hC3dp/ELeBTj4SDZSFfm0GN6p/iOazFQp3hpjZ5a2aEjF4xlVBXme9GiceIM/uPXg==}
+  adusei-ui@0.1.8:
+    resolution: {integrity: sha512-udqmJAxxRUafy/tm/xYKmfVug/Da5SSiPsWrLgFRHAa6MrkTBnCoHXvhT+7ojCS09NhgGHEcajGY8t77p04rBg==}
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -3557,7 +3557,7 @@ snapshots:
 
   acorn@8.12.1: {}
 
-  adusei-ui@0.1.7(@types/react-dom@18.3.0)(@types/react@18.3.3)(tailwindcss@3.4.10):
+  adusei-ui@0.1.8(@types/react-dom@18.3.0)(@types/react@18.3.3)(tailwindcss@3.4.10):
     dependencies:
       '@hookform/resolvers': 3.9.0(react-hook-form@7.52.2(react@18.3.1))
       '@radix-ui/react-alert-dialog': 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

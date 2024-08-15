@@ -7,12 +7,22 @@ import { restApi } from "~/redux/restApi";
 import { authActions } from "~/redux/slice/auth";
 import { useForm } from "react-hook-form";
 import { EmploymentRequestDto, EmploymentValidator } from "./types";
+import { useSelector } from "~/redux/store";
+import { toast } from "sonner";
+import { useEffect } from "react";
 const Employment = () => {
+  const personId = useSelector((state) => state.common.personId);
+
   const [EmploymentMutation, { isLoading }] =
     restApi.useCreateEmployeeMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!personId) {
+      navigate(routes.person());
+    }
+  }, [personId]);
 
   const {
     control,
@@ -30,25 +40,37 @@ const Employment = () => {
   });
 
   const onSubmit = async (data: EmploymentRequestDto) => {
+    const payload = {
+      duration: data.duration ? Number(data.duration) : 0,
+      currentEmployerName: data.currentEmployerName,
+      currentEmployerAddress: data.currentEmployerAddress,
+      position: data.position,
+      type: data.type.value,
+      previousEmploymentDetails: data.previousEmploymentDetails,
+      personId,
+    };
     try {
       const response = await EmploymentMutation({
-        employmentRequest: data,
+        employmentRequest: payload,
       }).unwrap();
       // const result = response.result;
-
-      // return navigate(routes.login());
       console.log(response);
+      toast.success("employment created successfully");
+
+      return navigate(routes.guarantor());
     } catch (err) {
-      console.log(err);
+      const errorResponse = err as {
+        error: string;
+        status: number;
+      };
+      toast.error(errorResponse.error);
     }
   };
   return (
     <div className="w-full max-w-md px-8 py-6">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-4 text-center">
-          <h1 className="text-2xl font-medium leading-7">Welcome back!</h1>
-
-          <div className="text-xs font-medium">Please enter your details</div>
+        <div className="pb-4">
+          <span className="text-lg font-medium">Employment Information</span>
         </div>
         <div className="w-full space-y-2">
           <FormWizard
@@ -137,7 +159,7 @@ const Employment = () => {
                 type: InputTypes.TEXT,
               },
               {
-                title: "Save Employment",
+                title: "Next",
                 type: InputTypes.SUBMIT,
                 className: "w-full text-base",
                 loading: isLoading,

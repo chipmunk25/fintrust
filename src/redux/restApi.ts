@@ -164,12 +164,9 @@ export const restApi = createApi({
 
     createEmployee: builder.mutation({
       query: (queryArg) => ({
-        url: `/api/v${queryArg.version}/employee`,
+        url: `/api/employment/save`,
         method: "POST",
-        body: queryArg.createUserRequest,
-        headers: {
-          "App-Name": queryArg["App-Name"],
-        },
+        body: queryArg.employmentRequest,
       }),
     }),
 
@@ -206,18 +203,15 @@ export const restApi = createApi({
         url: `/api/users/signup/`,
         method: "POST",
         body: queryArg.signupRequest,
-        
       }),
     }),
     CreatePerson: builder.mutation({
       query: (queryArg) => ({
-        url: `/api/person/create/`,
+        url: `/api/persons/create/`,
         method: "POST",
-        body: queryArg.createPersonRequest,
-        
+        body: queryArg.personRequest,
       }),
     }),
-
 
     //end achaasa section of code
   }),

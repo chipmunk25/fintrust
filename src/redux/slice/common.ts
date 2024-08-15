@@ -8,6 +8,7 @@ export interface CommonState {
   employeeIds: string[];
   employeeId: string;
   itemId: string;
+  personId: string;
 }
 
 const initialState: CommonState = {
@@ -15,6 +16,7 @@ const initialState: CommonState = {
   employeeIds: [],
   employeeId: "",
   itemId: "",
+  personId: "",
 };
 
 export const commonSlice = createSlice({
@@ -34,6 +36,10 @@ export const commonSlice = createSlice({
       state.itemId = action.payload;
     },
 
+    selectPersonId: (state, action: PayloadAction<string, string>) => {
+      state.personId = action.payload;
+    },
+
     resetEmployees: (state) => {
       state.employeeIds = [];
     },
@@ -42,6 +48,9 @@ export const commonSlice = createSlice({
     },
     resetItemId: (state) => {
       state.itemId = "";
+    },
+    resetPersonId: (state) => {
+      state.personId = "";
     },
 
     clearSearchValue: (state) => {
@@ -56,7 +65,7 @@ function createSelector<T>(fn: (d: ReduxState["common"]) => T) {
 
 export const common = createSelector((common: CommonState) => common);
 export const searchValue = createSelector(
-  (common: CommonState) => common.searchInput,
+  (common: CommonState) => common.searchInput
 );
 export const commonActions = commonSlice.actions;
 
