@@ -123,7 +123,7 @@ const saveBankRecords = () => {
                 },
               },
               {
-                title: "Summary",
+                title: "Loan Request",
                 type: InputTypes.SUBMIT,
                 className: "w-full text-base",
 
