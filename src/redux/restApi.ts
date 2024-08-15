@@ -14,6 +14,7 @@ import { waitForTimeout } from "~/lib/utils";
 // Example transformation function
 import { loadSessionStore } from "./session";
 import { AuthState, authActions } from "./slice/auth";
+import Person from "~/pages/person";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: REST_API_URL,
@@ -208,6 +209,15 @@ export const restApi = createApi({
         
       }),
     }),
+    CreatePerson: builder.mutation({
+      query: (queryArg) => ({
+        url: `/api/person/create/`,
+        method: "POST",
+        body: queryArg.createPersonRequest,
+        
+      }),
+    }),
+
 
     //end achaasa section of code
   }),
