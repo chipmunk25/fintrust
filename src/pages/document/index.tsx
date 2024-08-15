@@ -61,18 +61,18 @@ const saveBankRecords = () => {
     <div className="w-full max-w-md px-8 py-6">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="pb-4">
-          <span className="text-lg font-medium">Bank Information</span>
+          <span className="text-lg font-medium">Document Information</span>
         </div>
         <div className="w-full space-y-2">
           <FormWizard
             config={[
               {
-                label: "Bank Type",
+                label: "Document Type",
                 control,
                 type: InputTypes.SELECT,
                 name: "type",
                 required: true,
-                placeholder: " Select Bank Type",
+                placeholder: " Select Document Type",
                 options: [
                   {
                     value: "PASSPORT",
