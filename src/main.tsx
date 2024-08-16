@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
-import "./tailwind.css";
 import "adusei-ui/dist/style.css";
+import "./tailwind.css";
 // import { Icon } from "adusei-ui";
 import { Provider } from "react-redux";
 import store from "./redux/store.ts";

@@ -27,13 +27,16 @@ const Cart = ({
           <span className="text-lg font-medium">{title}</span>
         </div>
         <ul className="w-full space-y-4">
-          <li className="flex w-full gap-6">
-            <div className="w-72">{left}</div>
+          <li className=" hidden md:flex  w-full gap-6">
+            <div className="w-full md:w-72">{left}</div>
             <div className="w-full">{right}</div>
           </li>
           {cartLists?.map((item, idx) => (
-            <li className="flex w-full gap-6" key={idx}>
-              <div className="w-72">
+            <li className="flex flex-col md:flex-row w-full gap-6" key={idx}>
+              <div className="w-full md:w-1/4 ">
+                <div className="block md:hidden">
+                  <span>{left}</span>
+                </div>
                 <SelectDropDown
                   value={{
                     value: item.name,
@@ -51,8 +54,11 @@ const Cart = ({
                   }}
                 />
               </div>
-              <div className="w-full">
-                <div className="w-72">
+              <div className="w-full md:w-1/4 flex gap-2 items-center">
+                <div className="w-full  ">
+                  <div className="block md:hidden ">
+                    <span>{right}</span>
+                  </div>
                   <Input
                     value={item.amount}
                     placeholder="Amount"
@@ -66,28 +72,28 @@ const Cart = ({
                     }}
                   />
                 </div>
-              </div>
-              <div>
-                <Button
-                  onClick={() => {
-                    setSelectedCart((prev) => {
-                      const newOption = [...prev];
-                      newOption.splice(idx, 1);
-                      return newOption;
-                    });
-                  }}
-                  variant={"ghost"}
-                  className="w-10 h-10 rounded-full bg-destructive-100 text-destructive-500"
-                  type="button"
-                  size={"icon"}
-                >
-                  <Icon name="Trash2" />
-                </Button>
+                <div className="mt-2 md:mt-0">
+                  <Button
+                    onClick={() => {
+                      setSelectedCart((prev) => {
+                        const newOption = [...prev];
+                        newOption.splice(idx, 1);
+                        return newOption;
+                      });
+                    }}
+                    variant={"ghost"}
+                    className="w-10 h-10 rounded-full bg-destructive-100 text-destructive-500"
+                    type="button"
+                    size={"icon"}
+                  >
+                    <Icon name="Trash2" />
+                  </Button>
+                </div>
               </div>
             </li>
           ))}
-          <li className="flex w-full gap-6">
-            <div className="w-72">
+          <li className="flex flex-col md:flex-row w-full gap-6">
+            <div className="w-full md:w-72">
               <Button
                 className="flex w-full gap-4 bg-neutral-300 text-neutral-700"
                 variant={"ghost"}

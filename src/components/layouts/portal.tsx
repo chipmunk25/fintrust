@@ -10,13 +10,15 @@ import { loadSessionStore } from "~/redux/session";
 
 const PortalLayout = () => {
   return (
-    <WavyBackground className="w-screen h-screen px-24 py-12 ">
-      <div className="container mx-auto rounded-md ">
+    <WavyBackground className="w-screen h-screen px-2 md:px-24 py-6 md:py-12">
+      <div className=" mx-auto rounded-md">
         <div className="shadow-lg">
-          <div className="w-full p-12 text-white bg-green-800 h-36 rounded-t-md">
-            <span className="text-3xl">Loan Application Request Form</span>
+          <div className="w-full p-4 md:p-8 lg:p-12 text-white bg-green-800 h-28 md:h-32 lg:h-36 rounded-t-md">
+            <span className="text-lg md:text-2xl lg:text-3xl">
+              Loan Application Request Form
+            </span>
           </div>
-          <div className="w-full h-full px-4 py-2 bg-white ">
+          <div className="w-full h-full p-4 md:px-6 lg:px-8 md:py-6 bg-white">
             <Outlet />
           </div>
         </div>

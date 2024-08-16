@@ -42,19 +42,7 @@ const config = {
       height: {
         "scroll-height": "calc(100vh - 50px)",
       },
-      fontFamily: {
-        Regular: ["RigRegular", "sans-serif"],
-        Medium: ["RigMedium", "sans-serif"],
-        Bold: ["RigBold", "sans-serif"],
-      },
-      screens: {
-        xs: "576",
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1536px",
-      },
+
       colors: {
         destructive: {
           900: "#7F1D1D",
