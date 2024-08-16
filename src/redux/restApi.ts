@@ -14,7 +14,6 @@ import { waitForTimeout } from "~/lib/utils";
 // Example transformation function
 import { loadSessionStore } from "./session";
 import { AuthState, authActions } from "./slice/auth";
-import Person from "~/pages/person";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: REST_API_URL,

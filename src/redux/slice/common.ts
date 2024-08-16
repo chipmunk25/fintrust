@@ -59,10 +59,14 @@ export const commonSlice = createSlice({
   },
 });
 
-function createSelector<T>(fn: (d: ReduxState["common"]) => T) {
-  return ({ common }: ReduxState) => fn(common);
+// function createSelector<T>(fn: (d: ReduxState["common"]) => T) {
+//   return ({ common }: ReduxState) => fn(common);
+// }
+function createSelector<T>(
+  fn: (d: ReduxState["persistedReducer"]["common"]) => T
+) {
+  return ({ persistedReducer: { common } }: ReduxState) => fn(common);
 }
-
 export const common = createSelector((common: CommonState) => common);
 export const searchValue = createSelector(
   (common: CommonState) => common.searchInput

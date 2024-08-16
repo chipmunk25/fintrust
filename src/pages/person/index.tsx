@@ -1,6 +1,6 @@
-import { Button, FormWizard, InputTypes } from "adusei-ui";
+import { FormWizard, InputTypes } from "adusei-ui";
 import { useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "~/lib/constants";
 import { getFormData } from "~/lib/utils";
 import { restApi } from "~/redux/restApi";

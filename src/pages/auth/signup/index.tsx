@@ -1,17 +1,16 @@
 import { FormWizard, InputTypes } from "adusei-ui";
-import { useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { routes } from "~/lib/constants";
-import { waitForTimeout } from "~/lib/utils";
+// import { useDispatch } from "react-redux";
+// import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { restApi } from "~/redux/restApi";
-import { authActions } from "~/redux/slice/auth";
+
 import { useForm } from "react-hook-form";
 import { UserValidator, UserRequestDto } from "./types";
 const Signin = () => {
   const [signupMutation, { isLoading }] = restApi.useSignupMutation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const [searchParams] = useSearchParams();
 
   const {
     // control,
@@ -30,12 +29,12 @@ const Signin = () => {
   const onSubmit = async (data: UserRequestDto) => {
     try {
       const response = await signupMutation({
-        signupRequest:data
+        signupRequest: data,
       }).unwrap();
       // const result = response.result;
-     
-        // return navigate(routes.login());
-      console.log(response)
+
+      // return navigate(routes.login());
+      console.log(response);
     } catch (err) {
       console.log(err);
     }

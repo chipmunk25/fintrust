@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { FormWizard, InputTypes } from "adusei-ui";
-import { useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 // import { routes } from "~/lib/constants";
 // import { waitForTimeout } from "~/lib/utils";
 import { restApi } from "~/redux/restApi";
@@ -16,9 +16,9 @@ import { routes } from "~/lib/constants";
 import { toast } from "sonner";
 const Loans = () => {
   const [loanMutation, { isLoading }] = restApi.useCreateLoanMutation();
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+
   const {
     control,
     register,

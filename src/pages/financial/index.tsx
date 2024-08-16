@@ -1,4 +1,4 @@
-import { Button, FormWizard, InputTypes, Separator } from "adusei-ui";
+import { FormWizard, InputTypes, Separator } from "adusei-ui";
 import Cart, { CartProps } from "./cart";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -63,6 +63,55 @@ const Financial = () => {
   const onSubmit = async (data: FinancialRequestDto) => {
     console.log(data, debt, financials, expenses);
 
+    // const currentFinancialPayloads = financials.map((item) => {
+    //   return {
+    //     personId,
+    //     type: item.name,
+    //     amount: item.amount,
+    //   };
+    // });
+    // const currentExpensesPayloads = expenses.map((item) => {
+    //   return {
+    //     personId,
+    //     type: item.name,
+    //     amount: item.amount,
+    //   };
+    // });
+    // const publicRecordsPayload = {
+    //   personId,
+    //   bankruptcies: data.bankruptcies === "Yes" ? true : false,
+    //   criminalRecord: data.criminalRecord === "Yes" ? true : false,
+    //   nationality: data.nationality,
+    // };
+    // const creditHistoryPayload = {
+    //   personId,
+    //   previousLoan: data.previousLoan === "Yes" ? true : false,
+    //   repaymentHistory: data.repaymentSchedule
+    //     ? data.repaymentSchedule.value
+    //     : "",
+    //   latePayments: data.latePayments === "Yes" ? true : false,
+    // };
+    // const financialRequest = {
+    //   currentFinancialPayloads,
+    //   currentExpensesPayloads,
+    //   publicRecordsPayload,
+    //   creditHistoryPayload,
+    // };
+
+    // const currentDebtPayloads = cleanedData(
+    //   debt.map((item) => {
+    //     return {
+    //       personId,
+    //       loanAmount: item.amount,
+    //       existingLoanType: item.name,
+    //       outstandingBalance: item.amount1,
+    //       monthlyPaymentObligations: item.amount2,
+    //     };
+    //   })
+    // );
+    // if (currentDebtPayloads.length > 0) {
+    //   financialRequest.currentDebtPayloads = currentDebtPayloads;
+    // }
     const currentFinancialPayloads = financials.map((item) => {
       return {
         personId,
@@ -70,6 +119,7 @@ const Financial = () => {
         amount: item.amount,
       };
     });
+
     const currentExpensesPayloads = expenses.map((item) => {
       return {
         personId,
@@ -77,12 +127,14 @@ const Financial = () => {
         amount: item.amount,
       };
     });
+
     const publicRecordsPayload = {
       personId,
       bankruptcies: data.bankruptcies === "Yes" ? true : false,
       criminalRecord: data.criminalRecord === "Yes" ? true : false,
       nationality: data.nationality,
     };
+
     const creditHistoryPayload = {
       personId,
       previousLoan: data.previousLoan === "Yes" ? true : false,
@@ -91,13 +143,46 @@ const Financial = () => {
         : "",
       latePayments: data.latePayments === "Yes" ? true : false,
     };
-    const financialRequest = {
+
+    // Initialize financialRequest with an optional currentDebtPayloads property
+    const financialRequest: {
+      currentFinancialPayloads: {
+        personId: string;
+        type: string;
+        amount: number;
+      }[];
+      currentExpensesPayloads: {
+        personId: string;
+        type: string;
+        amount: number;
+      }[];
+      publicRecordsPayload: {
+        personId: string;
+        bankruptcies: boolean;
+        criminalRecord: boolean;
+        nationality: string;
+      };
+      creditHistoryPayload: {
+        personId: string;
+        previousLoan: boolean;
+        repaymentHistory: string;
+        latePayments: boolean;
+      };
+      currentDebtPayloads?: {
+        personId: string;
+        loanAmount: number;
+        existingLoanType: string;
+        outstandingBalance: number;
+        monthlyPaymentObligations: number;
+      }[];
+    } = {
       currentFinancialPayloads,
       currentExpensesPayloads,
       publicRecordsPayload,
       creditHistoryPayload,
     };
 
+    // Conditionally add currentDebtPayloads if there are items in the debt array
     const currentDebtPayloads = cleanedData(
       debt.map((item) => {
         return {
@@ -109,6 +194,7 @@ const Financial = () => {
         };
       })
     );
+
     if (currentDebtPayloads.length > 0) {
       financialRequest.currentDebtPayloads = currentDebtPayloads;
     }

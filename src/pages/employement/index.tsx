@@ -1,5 +1,5 @@
 import { FormWizard, InputTypes } from "adusei-ui";
-import { useDispatch } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import { routes } from "~/lib/constants";
 
@@ -13,7 +13,7 @@ import { useEffect } from "react";
 const Employment = () => {
   const [EmploymentMutation, { isLoading }] =
     restApi.useCreateEmployeeMutation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const personId = useSelector(
